@@ -727,10 +727,13 @@ class NLPToolkitUI(QMainWindow):
             self.key_words_edit.clear()
             
     def manageKeyWords(self):
-        # This method should contain the logic to manage key words.
-        print("Manage Key Words clicked")
-        # Similar to manageStopWords, implement the logic to manage key words.
-        # This could involve opening a dialog for adding/removing key words.            
+        # Open dialog chain for selecting and editing key word lists
+        # First select a key word category (e.g. domain, people)
+        dialog = ListSelectionDialog(listType="Key Words", parent=self)
+        # The emitted signal sends (listType, selection). We only need the
+        # chosen category to open the file selection dialog.
+        dialog.listSelected.connect(lambda _, category: self.openKeywordListSelection(category))
+        dialog.exec()
       
     
     def onAddStopWordClicked(self):
