@@ -16,6 +16,7 @@ nGrams Analysis: Identify common phrases and themes with bigrams and trigrams vi
 Readability Metrics: Tailor your content with readability scores to reach your desired audience.
 Named Entity Recognition: Discover key entities such as people, places, and organizations in your text.
 Customizable Lists: Refine your analysis with purpose-built lists, including regional vernacular and domain-specific terms.
+Key Word Emphasis: Highlight selected key words in the processed text by converting them to uppercase.
 Why Book Worm NLP?
 We're here to demystify text analysis, offering a bridge between you and the deeper meanings in your data. With Book Worm NLP, every word counts towards a greater understanding.
 
