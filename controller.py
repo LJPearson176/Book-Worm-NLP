@@ -30,16 +30,16 @@ class NLPToolkitController:
         # Assuming `lemmatize_text_content` is a function you've defined that takes a string and returns a list of lemmatized words
         text = ' '.join(self.lemmatize_text_content(text))
 
-        # Optionally emphasize key words if enabled
-        # This part depends on how you want to emphasize key words - this is a placeholder for the logic
+        # Optionally emphasize key words if enabled.  The chosen
+        # emphasis style is to convert matching words to upper case so
+        # they stand out in the processed output without introducing
+        # additional markup characters.
         if self.use_key_words and self.key_words_list:
-            emphasized_text = []
-            for word in text.split():
-                if word.lower() in [kw.lower() for kw in self.key_words_list]:
-                    # This is a placeholder for emphasis, e.g., making the word uppercase or appending a tag
-                    emphasized_text.append(word.upper())  # Example: emphasize by making uppercase
-                else:
-                    emphasized_text.append(word)
+            key_words = {kw.lower() for kw in self.key_words_list}
+            emphasized_text = [
+                word.upper() if word.lower() in key_words else word
+                for word in text.split()
+            ]
             text = ' '.join(emphasized_text)
 
         print(f"Preprocessed text: {text}")
