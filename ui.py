@@ -76,6 +76,13 @@ class ListSelectionDialog(QDialog):
         elif listType == 'Key Words':
             categories = ["regional_vernacular", "domain", "people", "religious"]
             self.listTypeComboBox.addItems(["Select Category"] + categories)
+        elif listType == 'Custom List':
+            custom_path = 'resources/lists/Custom'
+            if os.path.isdir(custom_path):
+                files = os.listdir(custom_path)
+                self.listTypeComboBox.addItems(["Select List"] + files)
+            else:
+                self.listTypeComboBox.addItem("No lists found")
         # Add conditions for other list types as necessary
 
     def emitSelection(self):
