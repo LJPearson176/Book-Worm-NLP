@@ -15,7 +15,7 @@ Interactive POS Tagging & Chunking: Visualize sentence structures and extract ke
 nGrams Analysis: Identify common phrases and themes with bigrams and trigrams visualization.
 Readability Metrics: Tailor your content with readability scores to reach your desired audience.
 Named Entity Recognition: Discover key entities such as people, places, and organizations in your text.
-Customizable Lists: Refine your analysis with purpose-built lists, including regional vernacular and domain-specific terms.
+Customizable Lists: Refine your analysis with purpose-built lists, including regional vernacular and domain-specific terms. Sample lists are provided in the `resources/lists` directory to help you get started.
 Why Book Worm NLP?
 We're here to demystify text analysis, offering a bridge between you and the deeper meanings in your data. With Book Worm NLP, every word counts towards a greater understanding.
 
@@ -123,7 +123,12 @@ Explore your data!
 
 ![review sankey](https://github.com/LJPearson176/Book-Worm-NLP/assets/145518111/c6c0b91e-ae15-47c2-afdb-3d1964d70f73)
 
-
+Sample Word Lists
+-----------------
+Explore ready-made vocabularies in `resources/lists`:
+- Filtering lists like `profane.txt` and `stop_words.txt`
+- Domain and people keyword collections under `resources/lists/Key`
+- Example custom lists in `resources/lists/Custom`
 
 Contributing
 Book Worm NLP thrives on community contributions. Whether you're interested in adding features, refining our tools, or providing feedback, your insights are invaluable to us. Let's collaborate to enhance Book Worm NLP, making it an even more powerful tool for text analysis.
