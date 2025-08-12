@@ -4,7 +4,7 @@ import nltk
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QTextEdit, QPushButton, QComboBox, QLabel, QLineEdit, QCheckBox, QTabWidget, QFileDialog,
-    QMessageBox, QStatusBar, QToolTip, QSizePolicy, QTextBrowser, QTableWidget, QTableWidgetItem, QDialog
+    QMessageBox, QStatusBar, QToolTip, QSizePolicy, QTextBrowser, QTableWidget, QTableWidgetItem, QDialog, QInputDialog
 )
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtGui import (QAction, QIcon, QPixmap, QScreen, QCursor, QPainter)
@@ -76,6 +76,12 @@ class ListSelectionDialog(QDialog):
         elif listType == 'Key Words':
             categories = ["regional_vernacular", "domain", "people", "religious"]
             self.listTypeComboBox.addItems(["Select Category"] + categories)
+        elif listType == 'Custom List':
+            custom_dir = 'resources/lists/Custom'
+            if not os.path.exists(custom_dir):
+                os.makedirs(custom_dir)
+            files = [f for f in os.listdir(custom_dir) if os.path.isfile(os.path.join(custom_dir, f))]
+            self.listTypeComboBox.addItems(["Create New..."] + files)
         # Add conditions for other list types as necessary
 
     def emitSelection(self):
@@ -765,10 +771,9 @@ class NLPToolkitUI(QMainWindow):
         self.key_words_display.setText("Current Key Words:\n" + "\n".join(sorted(self.controller.key_words_list)))
         
     def manageCustomLists(self):
-        # This method should contain the logic to manage any custom lists your application uses.
-        print("Manage Custom Lists clicked")
-        # Implement the logic for users to manage custom lists (add/remove items, etc.).
-        # This could be a more generic or flexible interface compared to the other two.        
+        dialog = ListSelectionDialog(listType="Custom List", parent=self)
+        dialog.listSelected.connect(self.handleListSelection)
+        dialog.exec()
     
     def createMenus(self):
         menuBar = self.menuBar()
@@ -811,9 +816,12 @@ class NLPToolkitUI(QMainWindow):
         listsMenu.addAction(customListsAction)
 
     def openListDialog(self, listType):
-        if listType in ['Stop Words', 'Key Words', 'Custom List']:
-            # Use a selection dialog to list options based on the list type
-            self.openListSelectionDialog(listType)
+        if listType == 'Stop Words':
+            self.manageStopWords()
+        elif listType == 'Key Words':
+            self.manageKeyWords()
+        elif listType == 'Custom List':
+            self.manageCustomLists()
         else:
             print(f"Unknown list type: {listType}")
 
@@ -829,7 +837,21 @@ class NLPToolkitUI(QMainWindow):
             self.openListManagementDialog(f"Manage Stop Words: {selection}", filePath)
         elif listType == 'Key Words':
             self.openKeywordListSelection(selection)
-        # Add logic for 'Custom List' if necessary
+        elif listType == 'Custom List':
+            custom_dir = 'resources/lists/Custom'
+            if selection == 'Create New...':
+                name, ok = QInputDialog.getText(self, 'New Custom List', 'List name:')
+                if not ok or not name:
+                    return
+                if not name.endswith('.txt'):
+                    name += '.txt'
+                filePath = os.path.join(custom_dir, name)
+                os.makedirs(custom_dir, exist_ok=True)
+                open(filePath, 'a').close()
+                self.openListManagementDialog(f"Manage Custom List: {name}", filePath)
+            else:
+                filePath = os.path.join(custom_dir, selection)
+                self.openListManagementDialog(f"Manage Custom List: {selection}", filePath)
 
     def openKeywordListSelection(self, category):
         # This function would open another dialog to select a specific list within the chosen category
